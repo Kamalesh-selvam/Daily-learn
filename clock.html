@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>12-Hour Digital Clock</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: radial-gradient(circle, #1e3c72, #2a5298);
+      font-family: 'Roboto', sans-serif;
+      color: #ffffff;
+    }
+
+    .clock {
+      text-align: center;
+      padding: 20px 40px;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .time {
+      font-size: 4rem;
+      font-weight: bold;
+      letter-spacing: 3px;
+    }
+
+    .date {
+      font-size: 1.5rem;
+      margin-top: 10px;
+      letter-spacing: 2px;
+      color: #dcdcdc;
+    }
+
+    .am-pm {
+      font-size: 1.2rem;
+      margin-top: 5px;
+      color: #f3c623;
+    }
+
+    /* Add animation for the time display */
+    .time, .date, .am-pm {
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="clock">
+    <div class="time" id="time">Loading...</div>
+    <div class="date" id="date"></div>
+    <div class="am-pm" id="am-pm"></div>
+  </div>
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+
+      // Get hours, minutes, and seconds
+      let hours = now.getHours();
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+
+      // Determine AM or PM
+      const amPm = hours >= 12 ? 'PM' : 'AM';
+
+      // Convert to 12-hour format
+      hours = hours % 12 || 12; // 12-hour format (0 should be 12)
+
+      // Format time string
+      const timeString = `${hours}:${minutes}:${seconds}`;
+      
+      // Get today's date
+      const dateString = now.toLocaleDateString('en-US', {
+        weekday: 'long',
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric'
+      });
+
+      // Display time, date, and AM/PM
+      document.getElementById('time').textContent = timeString;
+      document.getElementById('date').textContent = dateString;
+      document.getElementById('am-pm').textContent = amPm;
+    }
+
+    // Update the clock every second
+    setInterval(updateClock, 1000);
+
+    // Initialize clock
+    updateClock();
+  </script>
+</body>
+</html>
